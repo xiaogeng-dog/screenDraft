@@ -4,7 +4,11 @@
       <body-title>中国特检院智慧电梯全景视图</body-title>
     </div>
     <div class="screen-menu">
-      <BodyMenu :menu="menu"></BodyMenu>
+      <BodyMenu
+        :menu="menu"
+        :checkedMenu="checkedMenu"
+        @changeMenu="changeMenu"
+      ></BodyMenu>
     </div>
     <div class="screen-main">
       <div class="main-left">
@@ -18,14 +22,31 @@
           />
         </div>
       </div>
-      <div class="main-middle"></div>
-      <div class="main-right">
+      <div class="main-middle">
+        <div class="map"></div>
+        <div class="check-botton">
+          <middle-bottom
+            :allProvince="checkedPro"
+            :checked="checkedProvince"
+            @changeProvince="changeProvince"
+            @checkCity="checkCity"
+          ></middle-bottom>
+        </div>
+      </div>
+      <div class="main-right" v-if="isProvince">
         <div class="main-right-top">
-          <right-top :rightInfo="rightTopInfo" />
+          <right-province :rightInfo="rightTopInfo" />
         </div>
         <div class="main-right-bottom">
-          <right-top :rightInfo="rightBottomInfo" />
+          <right-province :rightInfo="rightBottomInfo" />
         </div>
+      </div>
+      <div class="main-right" v-else>
+        <right-city
+          :menusPieInfo="menusPieInfo"
+          :tableTitle="tableTitle"
+          :tableContent="tableContent"
+        />
       </div>
     </div>
   </div>
@@ -38,7 +59,10 @@ import BodyMenu from "@/views/liftScreen/components/BodyMenu";
 import LeftTop from "@/views/liftScreen/components/LeftTop";
 import LeftBottom from "@/views/liftScreen/components/LeftBottom";
 
-import RightTop from "./components/RightTop.vue";
+import MiddleBottom from "@/views/liftScreen/components/MiddleBottom";
+
+import RightProvince from "./components/RightProvince.vue";
+import RightCity from "./components/RightCity.vue";
 
 import "../../utils/flexible.js";
 
@@ -49,7 +73,9 @@ export default {
     BodyMenu,
     LeftTop,
     LeftBottom,
-    RightTop,
+    RightProvince,
+    RightCity,
+    MiddleBottom,
   },
   data() {
     return {
@@ -186,7 +212,192 @@ export default {
           },
         ],
       },
+      allProvince: [
+        {
+          id: 1,
+          name: "江苏省",
+        },
+        {
+          id: 2,
+          name: "上海市",
+        },
+        {
+          id: 2,
+          name: "上海市",
+        },
+        {
+          id: 2,
+          name: "上海市",
+        },
+        {
+          id: 2,
+          name: "上海市",
+        },
+        {
+          id: 2,
+          name: "上海市",
+        },
+        {
+          id: 2,
+          name: "上海市",
+        },
+        {
+          id: 2,
+          name: "上海市",
+        },
+        {
+          id: 2,
+          name: "上海市",
+        },
+        {
+          id: 2,
+          name: "上海市",
+        },
+        {
+          id: 2,
+          name: "上海市",
+        },
+        {
+          id: 2,
+          name: "上海市",
+        },
+        {
+          id: 2,
+          name: "上海市",
+        },
+        {
+          id: 2,
+          name: "上海市",
+        },
+        {
+          id: 2,
+          name: "上海市",
+        },
+        {
+          id: 2,
+          name: "上海市",
+        },
+        {
+          id: 2,
+          name: "上海市",
+        },
+        {
+          id: 2,
+          name: "上海市",
+        },
+      ],
+      checkedCity: [
+        {
+          id: 1,
+          name: "南京市",
+        },
+        {
+          id: 2,
+          name: "无锡市",
+        },
+        {
+          id: 2,
+          name: "无锡市",
+        },
+        {
+          id: 2,
+          name: "无锡市",
+        },
+        {
+          id: 2,
+          name: "无锡市",
+        },
+        {
+          id: 2,
+          name: "无锡市",
+        },
+      ],
+      tableTitle: ["序号", "区域", "电梯数量"],
+      tableContent: [
+        {
+          id: "01",
+          name: "南京市",
+          consumNum: 54323,
+        },
+        {
+          id: "02",
+          name: "无锡市",
+          consumNum: 42313,
+        },
+        {
+          id: "03",
+          name: "南通市",
+          consumNum: 36344,
+        },
+        {
+          id: "04",
+          name: "淮安市",
+          consumNum: 32414,
+        },
+        {
+          id: "05",
+          name: "菜品名称展示位",
+          consumNum: 7,
+        },
+        {
+          id: "06",
+          name: "菜品名称展示位",
+          consumNum: 7,
+        },
+        {
+          id: "07",
+          name: "菜品名称展示位",
+          consumNum: 7,
+        },
+        {
+          id: "08",
+          name: "菜品名称展示位",
+          consumNum: 7,
+        },
+        {
+          id: "09",
+          name: "菜品名称展示位",
+          consumNum: 7,
+        },
+        {
+          id: "10",
+          name: "菜品名称展示位",
+          consumNum: 7,
+        },
+        {
+          id: "11",
+          name: "菜品名称展示位",
+          consumNum: 7,
+        },
+      ],
+      menusPieInfo: [
+        { value: 2263, name: "淮安" },
+        { value: 1673, name: "无锡" },
+        { value: 1432, name: "镇江" },
+        { value: 1254, name: "南京" },
+      ],
+      checkedPro: [],
+      checkedProvince: 1,
+      checkedMenu: 1,
+      isProvince: true,
     };
+  },
+  mounted() {
+    this.checkedPro = this.allProvince;
+  },
+  methods: {
+    changeProvince(val) {
+      this.checkedProvince = val.id;
+    },
+    checkCity(val) {
+      this.isProvince = false;
+      this.checkedPro = this.checkedCity;
+    },
+    changeMenu(val) {
+      this.isProvince = true;
+      this.checkedMenu = val.id;
+      this.checkedPro = this.allProvince;
+    },
   },
 };
 </script>
@@ -197,7 +408,7 @@ export default {
   height: 100%;
 
   background: url("~@/assets/image/BGBOX.png") no-repeat #2d313d;
-  background-size: 100%;
+  background-size: 100% 100%;
 
   .screen-header {
   }
@@ -215,6 +426,7 @@ export default {
     .main-left,
     .main-right {
       width: 6.625rem;
+      box-sizing: border-box;
       height: calc(100% - 1.25rem);
     }
 
@@ -234,7 +446,23 @@ export default {
       }
     }
     .main-middle {
+      height: calc(100% - 1.25rem);
+
+      box-sizing: border-box;
       flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      .map {
+        width: 100%;
+        height: 8.1125rem;
+        border: 1px solid #fff;
+      }
+      .check-botton {
+        width: 100%;
+        height: 1.625rem;
+      }
     }
     .main-right {
       padding-right: 0.375rem;

@@ -2,6 +2,7 @@
   <div class="menu-container">
     <div class="menu-list">
       <div
+        @click="changeMenu(item)"
         class="menu-item menu"
         :class="{ 'menu-active': checkedMenu === item.id }"
         v-for="item in menu"
@@ -18,11 +19,15 @@ export default {
   name: "BodyMenu",
   props: {
     menu: Array,
+    checkedMenu: Number,
   },
   data() {
-    return {
-      checkedMenu: 1,
-    };
+    return {};
+  },
+  methods: {
+    changeMenu(val) {
+      this.$emit("changeMenu", val);
+    },
   },
 };
 </script>
@@ -53,6 +58,9 @@ export default {
       //   font-weight: 600;
       color: rgba(255, 255, 255, 0.9);
       line-height: 0.5rem;
+    }
+    .menu-item:hover {
+      cursor: pointer;
     }
   }
 }
