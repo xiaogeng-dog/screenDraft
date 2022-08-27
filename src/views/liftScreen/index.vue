@@ -20,8 +20,12 @@
       </div>
       <div class="main-middle"></div>
       <div class="main-right">
-        <div class="main-right-top"></div>
-        <div class="main-right-bottom"></div>
+        <div class="main-right-top">
+          <right-top :rightInfo="rightTopInfo" />
+        </div>
+        <div class="main-right-bottom">
+          <right-top :rightInfo="rightBottomInfo" />
+        </div>
       </div>
     </div>
   </div>
@@ -34,6 +38,8 @@ import BodyMenu from "@/views/liftScreen/components/BodyMenu";
 import LeftTop from "@/views/liftScreen/components/LeftTop";
 import LeftBottom from "@/views/liftScreen/components/LeftBottom";
 
+import RightTop from "./components/RightTop.vue";
+
 import "../../utils/flexible.js";
 
 export default {
@@ -43,6 +49,7 @@ export default {
     BodyMenu,
     LeftTop,
     LeftBottom,
+    RightTop,
   },
   data() {
     return {
@@ -88,6 +95,96 @@ export default {
       monAddEchartsInfo: {
         dataInfo: [23, 27.3, 27.1, 7.6, 12.5, 21.5, 23.5],
         xAxisData: ["1月", "2月", "3月", "4月", "5月", "6月", "7月"],
+      },
+      rightTopInfo: {
+        title: "【省】电梯保有量情况",
+        protectNum: [
+          {
+            name: "江苏省",
+            num: 542323,
+          },
+          {
+            name: "山东省",
+            num: 42313,
+          },
+          {
+            name: "辽宁省",
+            num: 36344,
+          },
+          {
+            name: "河南省",
+            num: 32414,
+          },
+          {
+            name: "广东省",
+            num: 30212,
+          },
+          {
+            name: "新疆",
+            num: 12453,
+          },
+          {
+            name: "西藏",
+            num: 8765,
+          },
+          {
+            name: "内蒙古",
+            num: 7655,
+          },
+          {
+            name: "山西省",
+            num: 6545,
+          },
+          {
+            name: "云南省",
+            num: 4356,
+          },
+        ],
+      },
+      rightBottomInfo: {
+        title: "【市】电梯保有量情况",
+        protectNum: [
+          {
+            name: "石家庄",
+            num: 542323,
+          },
+          {
+            name: "西藏",
+            num: 42313,
+          },
+          {
+            name: "内蒙古",
+            num: 36344,
+          },
+          {
+            name: "乌海",
+            num: 32414,
+          },
+          {
+            name: "沈阳",
+            num: 30212,
+          },
+          {
+            name: "大连",
+            num: 12453,
+          },
+          {
+            name: "鞍山",
+            num: 8765,
+          },
+          {
+            name: "抚顺",
+            num: 7655,
+          },
+          {
+            name: "本溪",
+            num: 6545,
+          },
+          {
+            name: "丹东",
+            num: 4356,
+          },
+        ],
       },
     };
   },
