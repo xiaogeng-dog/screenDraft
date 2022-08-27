@@ -36,7 +36,9 @@ export default {
 .rc-container {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: calc(100% - 0.225rem);
+
+  background: rgba(32, 36, 49, 0.6);
   .echarts {
     width: 100%;
     flex: 1;

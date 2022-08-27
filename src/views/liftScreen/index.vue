@@ -11,7 +11,7 @@
       ></BodyMenu>
     </div>
     <div class="screen-main">
-      <div class="main-left">
+      <div class="main-left" v-if="checkedMenu == 1">
         <div class="main-left-top">
           <LeftTop :leftTop="leftTop"></LeftTop>
         </div>
@@ -22,8 +22,24 @@
           />
         </div>
       </div>
+      <div class="main-left" v-if="checkedMenu == 2">
+        <div class="main-left-top">
+          <LeftTop2 :leftTop="leftTop"></LeftTop2>
+        </div>
+        <div class="main-left-bottom">
+          <left-bottom
+            :leftBottomAdd="leftBottomAdd"
+            :echartsInfo="monAddEchartsInfo"
+          />
+        </div>
+      </div>
+      <div class="main-left" v-if="checkedMenu == 5">
+        <left5 :leftTop="leftTop" :echartsInfo="monAddEchartsInfo" />
+      </div>
       <div class="main-middle">
-        <div class="map"></div>
+        <div class="map">
+          <echarts-map></echarts-map>
+        </div>
         <div class="check-botton">
           <middle-bottom
             :allProvince="checkedPro"
@@ -33,7 +49,7 @@
           ></middle-bottom>
         </div>
       </div>
-      <div class="main-right" v-if="isProvince">
+      <div class="main-right" v-if="isProvince && checkedMenu == 1">
         <div class="main-right-top">
           <right-province :rightInfo="rightTopInfo" />
         </div>
@@ -41,12 +57,26 @@
           <right-province :rightInfo="rightBottomInfo" />
         </div>
       </div>
-      <div class="main-right" v-else>
+      <div class="main-right" v-if="!isProvince">
         <right-city
           :menusPieInfo="menusPieInfo"
           :tableTitle="tableTitle"
           :tableContent="tableContent"
         />
+      </div>
+      <div class="main-right" v-if="isProvince && checkedMenu == 2">
+        <right2
+          :rightInfo="rightTopInfo"
+          :echartsInfo="monAddEchartsInfo"
+          :echartsInfo4="echart4Info"
+        ></right2>
+      </div>
+      <div class="main-right" v-if="isProvince && checkedMenu == 5">
+        <right2
+          :rightInfo="rightTopInfo"
+          :echartsInfo="monAddEchartsInfo"
+          :echartsInfo4="echart4Info"
+        ></right2>
       </div>
     </div>
   </div>
@@ -57,12 +87,18 @@ import BodyTitle from "@/views/liftScreen/components/BodyTitle.vue";
 import BodyMenu from "@/views/liftScreen/components/BodyMenu";
 
 import LeftTop from "@/views/liftScreen/components/LeftTop";
+import LeftTop2 from "@/views/liftScreen/components/LeftTop2";
 import LeftBottom from "@/views/liftScreen/components/LeftBottom";
 
+import EchartsMap from "@/views/liftScreen/components/map";
 import MiddleBottom from "@/views/liftScreen/components/MiddleBottom";
 
 import RightProvince from "./components/RightProvince.vue";
 import RightCity from "./components/RightCity.vue";
+
+import right2 from "./components2/right2.vue";
+
+import left5 from "./components5/left5.vue";
 
 import "../../utils/flexible.js";
 
@@ -72,10 +108,14 @@ export default {
     BodyTitle,
     BodyMenu,
     LeftTop,
+    LeftTop2,
     LeftBottom,
     RightProvince,
     RightCity,
+    EchartsMap,
     MiddleBottom,
+    right2,
+    left5,
   },
   data() {
     return {
@@ -86,7 +126,7 @@ export default {
         },
         {
           id: 2,
-          title: "应届救援",
+          title: "应急救援",
         },
         {
           id: 3,
@@ -376,6 +416,10 @@ export default {
         { value: 1432, name: "镇江" },
         { value: 1254, name: "南京" },
       ],
+      echart4Info: {
+        dataInfo: [23, 27.3, 27.1, 7.6, 12.5, 21.5, 23.5],
+        xAxisData: ["1月", "2月", "3月", "4月", "5月", "6月", "7月"],
+      },
       checkedPro: [],
       checkedProvince: 1,
       checkedMenu: 1,
