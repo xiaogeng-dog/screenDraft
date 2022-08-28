@@ -1,6 +1,9 @@
 <template>
   <div class="left5-container">
-    <area-header>电梯增量情况</area-header>
+    <div class="left5-header">
+      <area-header>电梯增量情况</area-header>
+    </div>
+
     <div class="left5-item">
       <left5-item :leftTop="leftTop"></left5-item>
     </div>
@@ -52,6 +55,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.left5-header {
+  height: 0.5rem;
+}
 .left5-container {
   background: rgba(32, 36, 49, 0.6);
   height: calc(100% - 0.225rem);
@@ -63,7 +69,7 @@ export default {
     flex: 1;
     .echarts {
       width: 100%;
-      height: 100%;
+      height: calc(100% - 0.4rem);
     }
   }
 }

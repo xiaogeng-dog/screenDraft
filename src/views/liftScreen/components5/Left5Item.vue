@@ -48,6 +48,7 @@ export default {
   display: flex;
   align-items: center;
   padding: 0.3125rem 0;
+
   box-sizing: border-box;
 
   background: url("~@/assets/image/rt2-bg.png") no-repeat;

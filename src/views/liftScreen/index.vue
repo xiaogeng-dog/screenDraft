@@ -72,11 +72,7 @@
         ></right2>
       </div>
       <div class="main-right" v-if="isProvince && checkedMenu == 5">
-        <right2
-          :rightInfo="rightTopInfo"
-          :echartsInfo="monAddEchartsInfo"
-          :echartsInfo4="echart4Info"
-        ></right2>
+        <right5 :rightInfo="rightTopInfo" />
       </div>
     </div>
   </div>
@@ -97,6 +93,7 @@ import RightProvince from "./components/RightProvince.vue";
 import RightCity from "./components/RightCity.vue";
 
 import right2 from "./components2/right2.vue";
+import right5 from "@/views/liftScreen/components5/right5";
 
 import left5 from "./components5/left5.vue";
 
@@ -115,6 +112,7 @@ export default {
     EchartsMap,
     MiddleBottom,
     right2,
+    right5,
     left5,
   },
   data() {
