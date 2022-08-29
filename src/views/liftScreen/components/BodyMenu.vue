@@ -35,6 +35,7 @@ export default {
 <style lang="scss" scoped>
 .menu-active {
   background: url("~@/assets/image/menu-active.png") no-repeat !important;
+  background-size: 100% 100% !important;
   text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5) !important;
 }
 .menu-container {
@@ -51,7 +52,7 @@ export default {
       width: 1.5rem;
       height: 0.5rem;
       background: url("~@/assets/image/menu.png") no-repeat;
-      background-size: 100%;
+      background-size: 100% 100%;
 
       text-align: center;
       font-family: PingFangSC-Semibold, PingFang SC;

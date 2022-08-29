@@ -14,6 +14,14 @@ export default {
   props: {
     echartsInfo: Object,
   },
+  watch: {
+    echartsInfo: {
+      handler() {
+        this.initEcharts();
+      },
+      deep: true,
+    },
+  },
   mounted() {
     this.initEcharts();
     window.addEventListener("resize", () => {
@@ -28,12 +36,12 @@ export default {
         tooltip: {
           trigger: "axis",
           valueFormatter: (value) => {
-            return value + "万";
+            return value;
           },
         },
         grid: {
           top: "20%",
-          left: "10%",
+          left: "13%",
           right: "7%",
           bottom: "14%",
         },
@@ -62,7 +70,7 @@ export default {
               if (value == 0) {
                 return value;
               } else {
-                return value + "万";
+                return value;
               }
             },
           },
@@ -75,13 +83,13 @@ export default {
         },
         series: [
           {
-            name: "人次",
+            name: "新增",
             data: this.echartsInfo.dataInfo,
             type: "pictorialBar",
             barWidth: "20%",
             symbol: "triangle",
             label: {
-              show: true,
+              show: false,
               formatter: "{c}万",
               color: "#FFFFFF",
               position: "top",

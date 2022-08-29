@@ -51,7 +51,7 @@ export default {
   computed: {
     sumNum() {
       return this.tableContent.reduce((prev, cur) => {
-        return prev + cur.consumNum;
+        return prev + cur.value;
       }, 0);
     },
   },

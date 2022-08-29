@@ -4,7 +4,9 @@
       <area-header>电梯信息</area-header>
       <div class="liftInfo-info">
         <div class="liftInfo-info-item">
-          <div class="liftInfo-info-num">670</div>
+          <div class="liftInfo-info-num">
+            {{ parseInt(missingData.maintUnitNum).toLocaleString() }}
+          </div>
           <div class="liftInfo-info-name">
             <img src="~@/assets/image/warning.png" alt="" />
             <div class="queshi">
@@ -14,7 +16,9 @@
           </div>
         </div>
         <div class="liftInfo-info-item">
-          <div class="liftInfo-info-num">670</div>
+          <div class="liftInfo-info-num">
+            {{ parseInt(missingData.userUnitNum).toLocaleString() }}
+          </div>
           <div class="liftInfo-info-name">
             <img src="~@/assets/image/warning.png" alt="" />
             <div class="queshi">
@@ -24,7 +28,9 @@
           </div>
         </div>
         <div class="liftInfo-info-item">
-          <div class="liftInfo-info-num">670</div>
+          <div class="liftInfo-info-num">
+            {{ parseInt(missingData.liftNum).toLocaleString() }}
+          </div>
           <div class="liftInfo-info-name">
             <img src="~@/assets/image/warning.png" alt="" />
             <div class="queshi">
@@ -46,10 +52,12 @@
               （家）</span
             >
           </div>
-          <div class="maint-num">418,670</div>
+          <div class="maint-num">
+            {{ parseInt(baseInfo.maintUnitNum).toLocaleString() }}
+          </div>
         </div>
         <div class="echarts">
-          <maint-table-echart></maint-table-echart>
+          <maint-table-echart :echartsInfo="echartsInfo"></maint-table-echart>
         </div>
       </div>
     </div>
@@ -64,12 +72,12 @@
               （家）</span
             >
           </div>
-          <div class="maint-num">418,670</div>
+          <div class="maint-num">
+            {{ parseInt(baseInfo.userUnitNum).toLocaleString() }}
+          </div>
         </div>
         <div class="echarts">
-          <table-echart
-            :echartsInfo="rightInfo.protectNum.slice(0, 5)"
-          ></table-echart>
+          <table-echart :echartsInfo="protectNum.slice(0, 5)"></table-echart>
         </div>
       </div>
     </div>
@@ -82,6 +90,13 @@ import areaHeader from "@/views/liftScreen/components/areaHeader";
 import tableEchart from "@/views/liftScreen/components/echarts/tableEchart";
 
 import maintTableEchart from "@/views/liftScreen/components5/echarts/maintTableEchart";
+
+import {
+  missingItemAnalysis,
+  baseCountByProv,
+  maintainCountByLiftAnalysis,
+  userCountByAreaCodeAnalysis,
+} from "@/service/dataScreen/operationMonitor";
 export default {
   components: {
     areaHeader,
@@ -89,7 +104,136 @@ export default {
     maintTableEchart,
   },
   props: {
-    rightInfo: Object,
+    code: String,
+    isProvince: Boolean,
+  },
+  watch: {
+    code: {
+      handler() {
+        if (this.code != "") {
+          this.missingItemAnalysis(this.code);
+          this.baseCountByProv(this.code);
+          this.maintainCountByLiftAnalysis(this.code);
+          this.userCountByAreaCodeAnalysis(this.code);
+        } else {
+          this.missingItemAnalysis();
+          this.baseCountByProv();
+          this.maintainCountByLiftAnalysis();
+          this.userCountByAreaCodeAnalysis();
+        }
+      },
+      immediate: true,
+    },
+  },
+  data() {
+    return {
+      protectNum: [
+        {
+          name: "江苏省",
+          num: 542323,
+        },
+        {
+          name: "山东省",
+          num: 42313,
+        },
+        {
+          name: "辽宁省",
+          num: 36344,
+        },
+        {
+          name: "河南省",
+          num: 32414,
+        },
+        {
+          name: "广东省",
+          num: 30212,
+        },
+        {
+          name: "新疆",
+          num: 12453,
+        },
+        {
+          name: "西藏",
+          num: 8765,
+        },
+        {
+          name: "内蒙古",
+          num: 7655,
+        },
+        {
+          name: "山西省",
+          num: 6545,
+        },
+        {
+          name: "云南省",
+          num: 4356,
+        },
+      ],
+      missingData: {
+        maintUnitNum: 0,
+        userUnitNum: 0,
+        liftNum: 0,
+      },
+      baseInfo: {
+        maintUnitNum: 0,
+        userUnitNum: 0,
+      },
+      echartsInfo: {
+        yAxisData: [
+          "奥的斯机电电梯有限公司杭州分公司",
+          "日立电梯(中国)有限公司杭州工程",
+          "通力电梯有限公司郑州分公司",
+          "通力电梯有限公司南京分公司",
+          "通力电梯有限公司杭州分公司",
+        ],
+        xAxisData: [18203, 23489, 29034, 104970, 131744].reverse(),
+      },
+    };
+  },
+  methods: {
+    missingItemAnalysis(code = "") {
+      missingItemAnalysis().then((res) => {
+        if (res.code == "0") {
+          this.missingData.maintUnitNum = res.data[0].maintUnitNum;
+          this.missingData.userUnitNum = res.data[0].userUnitNum;
+          this.missingData.liftNum = res.data[0].liftNum;
+        }
+      });
+    },
+
+    baseCountByProv(code = "") {
+      baseCountByProv().then((res) => {
+        if (res.code == "0") {
+          this.baseInfo = res.data[0];
+        }
+      });
+    },
+
+    userCountByAreaCodeAnalysis(code = "") {
+      userCountByAreaCodeAnalysis().then((res) => {
+        if (res.code == "0") {
+          this.protectNum = [];
+          res.data.forEach((element) => {
+            this.protectNum.push({
+              name: element.responseName,
+              num: element.userUnitNum,
+            });
+          });
+        }
+      });
+    },
+    maintainCountByLiftAnalysis(code = "") {
+      maintainCountByLiftAnalysis().then((res) => {
+        if (res.code == "0") {
+          this.echartsInfo.xAxisData = [];
+          this.echartsInfo.yAxisData = [];
+          res.data.forEach((ele) => {
+            this.echartsInfo.xAxisData.push(ele.liftNum);
+            this.echartsInfo.yAxisData.push(ele.responseName);
+          });
+        }
+      });
+    },
   },
 };
 </script>

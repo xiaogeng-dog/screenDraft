@@ -29,7 +29,7 @@ export default {
   align-items: center;
 
   background: url("~@/assets/image/area-header.png") no-repeat;
-  background-size: 100%;
+  background-size: 100% 100%;
   .header-container {
     width: 100%;
     padding-left: 0.175rem;

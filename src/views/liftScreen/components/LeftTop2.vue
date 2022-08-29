@@ -3,14 +3,14 @@
     <div class="left">
       <div class="base">
         <div class="num">
-          {{ parseInt(leftTop.city).toLocaleString() }}
+          {{ parseInt(leftTop.allFormNum).toLocaleString() }}
         </div>
         <img src="~@/assets/image/line.png" alt="" />
         <div class="title">工单总数/件</div>
       </div>
       <div class="base">
         <div class="num">
-          {{ parseInt(leftTop.country).toLocaleString() }}
+          {{ parseInt(leftTop.formAVG).toLocaleString() }}
         </div>
         <img src="~@/assets/image/line.png" alt="" />
         <div class="title">平均救援时间/分钟</div>
@@ -20,14 +20,14 @@
     <div class="right">
       <div class="base">
         <div class="num1">
-          {{ parseInt(leftTop.companyNum).toLocaleString() }}
+          {{ parseInt(leftTop.tiringFormNum).toLocaleString() }}
         </div>
         <img src="~@/assets/image/line.png" alt="" />
         <div class="title">困人工单/件</div>
       </div>
       <div class="base">
         <div class="num1">
-          {{ parseInt(leftTop.workOrder).toLocaleString() }}
+          {{ parseInt(leftTop.faultFormNum).toLocaleString() }}
         </div>
         <img src="~@/assets/image/line.png" alt="" />
         <div class="title">非困人工单/件</div>
@@ -37,10 +37,47 @@
 </template>
 
 <script>
+import { getBaseInfo } from "@/service/dataScreen/emergencyRescue";
 export default {
   name: "LeftTop",
   props: {
-    leftTop: Object,
+    code: String,
+    isProvince: Boolean,
+  },
+  watch: {
+    code: {
+      handler() {
+        if (this.code != "") {
+          this.getBaseInfo(this.code);
+        } else {
+          this.getBaseInfo();
+        }
+      },
+      immediate: true,
+    },
+  },
+  data() {
+    return {
+      leftTop: {
+        faultFormNum: 0,
+        tiringFormNum: 0,
+        formAVG: 0,
+        allFormNum: 0,
+      },
+    };
+  },
+  methods: {
+    getBaseInfo(code = "") {
+      getBaseInfo(code).then((res) => {
+        if (res.code == 0) {
+          this.leftTop.faultFormNum = res.data[0].faultFormNum;
+          this.leftTop.tiringFormNum = res.data[0].tiringFormNum;
+          this.leftTop.formAVG = res.data[0].formAVG;
+          this.leftTop.allFormNum =
+            res.data[0].faultFormNum + res.data[0].tiringFormNum;
+        }
+      });
+    },
   },
 };
 </script>

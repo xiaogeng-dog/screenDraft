@@ -20,7 +20,12 @@ export default {
     echartsInfo: Object,
   },
   watch: {
-    // echartsInfo() {},
+    echartsInfo: {
+      handler() {
+        this.initEcharts();
+      },
+      deep: true,
+    },
   },
   mounted() {
     this.initEcharts();
@@ -43,10 +48,10 @@ export default {
           show: false,
         },
         grid: {
-          left: "18%",
+          left: "22%",
           right: "16%",
           // containLabel: true,
-          top: 0,
+          top: "5%",
           bottom: 0,
         },
         xAxis: {
@@ -71,8 +76,8 @@ export default {
             },
             data: this.echartsInfo.map((item) => item.name),
             axisLabel: {
-              margin: 50,
-              fontSize: 14,
+              margin: 80,
+              fontSize: 12,
               // fontWeight: "blod",
               align: "left",
               color: "#D5EAFF",
@@ -87,7 +92,7 @@ export default {
             data: this.echartsInfo.map((item) => item.num),
             axisLabel: {
               show: true,
-              fontSize: 14,
+              fontSize: 12,
               color: "#79D6FF",
               formatter: (val) => {
                 return parseInt(val).toLocaleString();
@@ -98,7 +103,7 @@ export default {
         series: [
           {
             z: 2,
-            name: "保有量",
+            name: "故障",
             type: "bar",
             barWidth: 8,
             zlevel: 1,

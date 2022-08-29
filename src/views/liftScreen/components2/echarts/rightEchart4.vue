@@ -12,7 +12,15 @@ export default {
     };
   },
   props: {
-    echartsInfo: Object,
+    echartsInfo: Array,
+  },
+  watch: {
+    echartsInfo: {
+      handler() {
+        this.initEcharts();
+      },
+      deep: true,
+    },
   },
   mounted() {
     this.initEcharts();
@@ -28,7 +36,7 @@ export default {
         tooltip: {
           trigger: "axis",
           valueFormatter: (value) => {
-            return value + "万";
+            return value;
           },
         },
         grid: {
@@ -62,7 +70,7 @@ export default {
               if (value == 0) {
                 return value;
               } else {
-                return value + "万";
+                return value;
               }
             },
           },
@@ -75,13 +83,13 @@ export default {
         },
         series: [
           {
-            name: "人次",
+            name: "困人",
             data: this.echartsInfo.dataInfo,
             type: "bar",
             barWidth: "17%",
             label: {
-              show: true,
-              formatter: "{c}万",
+              show: false,
+              formatter: "{c}",
               color: "#FFFFFF",
               position: "top",
             },

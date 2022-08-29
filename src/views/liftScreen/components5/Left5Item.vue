@@ -2,12 +2,16 @@
   <div class="com-container">
     <div class="left">
       <div class="base">
-        <div class="num">+{{ parseInt(leftTop.city).toLocaleString() }}</div>
+        <div class="num">
+          +{{ parseInt(leftTop.dayLiftNUM).toLocaleString() }}
+        </div>
         <img src="~@/assets/image/line.png" alt="" />
         <div class="title">当日新增</div>
       </div>
       <div class="base">
-        <div class="num">+{{ parseInt(leftTop.country).toLocaleString() }}</div>
+        <div class="num">
+          +{{ parseInt(leftTop.weekLiftNum).toLocaleString() }}
+        </div>
         <img src="~@/assets/image/line.png" alt="" />
         <div class="title">本周新增</div>
       </div>
@@ -16,14 +20,14 @@
     <div class="right">
       <div class="base">
         <div class="num">
-          +{{ parseInt(leftTop.companyNum).toLocaleString() }}
+          +{{ parseInt(leftTop.monthLiftNum).toLocaleString() }}
         </div>
         <img src="~@/assets/image/line.png" alt="" />
         <div class="title">本月新增</div>
       </div>
       <div class="base">
         <div class="num">
-          +{{ parseInt(leftTop.workOrder).toLocaleString() }}
+          +{{ parseInt(leftTop.yearLiftNum).toLocaleString() }}
         </div>
         <img src="~@/assets/image/line.png" alt="" />
         <div class="title">本年新增</div>

@@ -13,6 +13,14 @@ export default {
   props: {
     echartsInfo: Object,
   },
+  watch: {
+    echartsInfo: {
+      handler() {
+        this.initEcharts();
+      },
+      deep: true,
+    },
+  },
   mounted() {
     this.initEcharts();
     window.addEventListener("resize", () => {
@@ -27,7 +35,7 @@ export default {
         tooltip: {
           trigger: "axis",
           valueFormatter: (value) => {
-            return value + "间";
+            return value + "台";
           },
         },
         grid: {

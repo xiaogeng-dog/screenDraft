@@ -13,6 +13,14 @@ export default {
   props: {
     echartsInfo: Object,
   },
+  watch: {
+    echartsInfo: {
+      handler() {
+        this.initEcharts();
+      },
+      deep: true,
+    },
+  },
   mounted() {
     this.initEcharts();
     window.addEventListener("resize", () => {
@@ -27,13 +35,13 @@ export default {
         tooltip: {
           trigger: "axis",
           valueFormatter: (value) => {
-            return value + "间";
+            return value;
           },
         },
         grid: {
-          top: "20%",
-          left: "10%",
-          right: "7%",
+          top: "15%",
+          left: "12%",
+          right: "5%",
           bottom: "14%",
         },
         xAxis: {
@@ -49,6 +57,7 @@ export default {
             show: false,
           },
           axisLabel: {
+            fontSize: 12,
             color: "#FFFFFF",
           },
         },
@@ -67,7 +76,7 @@ export default {
         },
         series: [
           {
-            name: "新增电梯",
+            name: "故障",
             data: this.echartsInfo.dataInfo,
             type: "line",
             smooth: true,

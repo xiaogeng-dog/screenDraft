@@ -1,21 +1,19 @@
 <template>
   <div class="rt-container">
-    <area-header>{{ rightInfo.title }}</area-header>
+    <area-header>{{
+      isProvince ? "【省】电梯保有量情况" : "【市】电梯保有量情况"
+    }}</area-header>
     <div class="table">
       <div class="pro-frontfive">
         <div class="pro-title">电梯保有量<span>前五</span></div>
         <div class="pro-table">
-          <table-echart
-            :echartsInfo="rightInfo.protectNum.slice(0, 5)"
-          ></table-echart>
+          <table-echart :echartsInfo="protectNum.slice(0, 5)"></table-echart>
         </div>
       </div>
       <div class="pro-frontfive">
         <div class="pro-title1">电梯保有量<span>后五</span></div>
         <div class="pro-table">
-          <table-echart2
-            :echartsInfo="rightInfo.protectNum.slice(-5)"
-          ></table-echart2>
+          <table-echart2 :echartsInfo="protectNum.slice(-5)"></table-echart2>
         </div>
       </div>
     </div>
@@ -27,6 +25,7 @@ import areaHeader from "./areaHeader.vue";
 import tableEchart from "./echarts/tableEchart.vue";
 import tableEchart2 from "./echarts/tableEchart2.vue";
 
+import { handleProvinceRank, handleCityRank } from "@/service/dataScreen/left";
 export default {
   name: "RightTop",
   components: {
@@ -34,8 +33,62 @@ export default {
     tableEchart,
     tableEchart2,
   },
+  data() {
+    return {
+      protectNum: [],
+    };
+  },
   props: {
-    rightInfo: Object,
+    isProvince: Boolean,
+    code: String,
+  },
+  watch: {
+    code: {
+      handler() {
+        if (this.code != "") {
+          if (this.isProvince) {
+            this.handleProvinceRank();
+          } else {
+            this.handleCityRank();
+          }
+        } else {
+          if (this.isProvince) {
+            this.handleProvinceRank();
+          } else {
+            this.handleCityRank();
+          }
+        }
+      },
+      immediate: true,
+    },
+  },
+  methods: {
+    handleProvinceRank() {
+      handleProvinceRank().then((res) => {
+        if (res.code == 0) {
+          this.protectNum = [];
+          res.data.forEach((element) => {
+            this.protectNum.push({
+              name: element.responseName,
+              num: element.liftNum,
+            });
+          });
+        }
+      });
+    },
+    handleCityRank(code = "") {
+      handleCityRank(code).then((res) => {
+        if (res.code == 0) {
+          this.protectNum = [];
+          res.data.forEach((element) => {
+            this.protectNum.push({
+              name: element.responseName,
+              num: element.liftNum,
+            });
+          });
+        }
+      });
+    },
   },
 };
 </script>

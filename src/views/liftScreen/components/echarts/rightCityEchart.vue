@@ -20,6 +20,14 @@ export default {
       echartPie: null,
     };
   },
+  watch: {
+    menusPieInfo: {
+      handler() {
+        this.initEchart();
+      },
+      deep: true,
+    },
+  },
   mounted() {
     this.initEchart();
     window.addEventListener("resize", () => {

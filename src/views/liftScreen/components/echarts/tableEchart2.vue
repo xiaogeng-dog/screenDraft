@@ -20,7 +20,12 @@ export default {
     echartsInfo: Object,
   },
   watch: {
-    // echartsInfo() {},
+    echartsInfo: {
+      handler() {
+        this.initEcharts();
+      },
+      deep: true,
+    },
   },
   mounted() {
     this.initEcharts();
@@ -45,7 +50,7 @@ export default {
         },
         grid: {
           left: "23%",
-          right: "16%",
+          right: "18%",
           // containLabel: true,
           top: 0,
           bottom: 0,

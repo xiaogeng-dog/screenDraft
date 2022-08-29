@@ -16,11 +16,16 @@ export default {
       },
     };
   },
+  watch: {
+    echartsInfo: {
+      handler() {
+        this.initEcharts();
+      },
+      deep: true,
+    },
+  },
   props: {
     echartsInfo: Object,
-  },
-  watch: {
-    // echartsInfo() {},
   },
   mounted() {
     this.initEcharts();
@@ -44,7 +49,7 @@ export default {
         },
         grid: {
           left: "23%",
-          right: "16%",
+          right: "18%",
           // containLabel: true,
           top: 0,
           bottom: 0,

@@ -10,6 +10,14 @@ export default {
       echart: null,
     };
   },
+  watch: {
+    echartsInfo: {
+      handler() {
+        this.initEcharts();
+      },
+      deep: true,
+    },
+  },
   props: {
     echartsInfo: Object,
   },
@@ -19,6 +27,7 @@ export default {
       this.echart.resize();
     });
   },
+
   methods: {
     initEcharts() {
       var echart = this.$echarts.init(this.$refs.echart);
@@ -27,7 +36,7 @@ export default {
         tooltip: {
           trigger: "axis",
           valueFormatter: (value) => {
-            return value + "间";
+            return value;
           },
         },
         grid: {
@@ -67,7 +76,7 @@ export default {
         },
         series: [
           {
-            name: "新增电梯",
+            name: "新增",
             data: this.echartsInfo.dataInfo,
             type: "line",
             smooth: true,

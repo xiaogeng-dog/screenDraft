@@ -3,7 +3,7 @@
     <area-header>电梯数量</area-header>
     <table-temp
       :tableTitle="tableTitle"
-      :tableContent="tableContent"
+      :tableContent="menusPieInfo"
     ></table-temp>
     <div class="echarts">
       <right-city-echart :menusPieInfo="menusPieInfo"></right-city-echart>
@@ -17,17 +17,57 @@ import TableTemp from "./tableTemp.vue";
 
 import rightCityEchart from "./echarts/rightCityEchart.vue";
 
+import { handleCityRank } from "@/service/dataScreen/left";
+
 export default {
   name: "RightCity",
   props: {
-    tableTitle: Array,
-    tableContent: Array,
-    menusPieInfo: Array,
+    code: {
+      type: String,
+      default: "0",
+    },
+  },
+  watch: {
+    code: {
+      handler() {
+        if (this.code != "") {
+          this.handleCityRank(this.code);
+        }
+      },
+      immediate: true,
+    },
+  },
+  data() {
+    return {
+      menusPieInfo: [
+        // { value: 2263, name: "淮安" },
+        // { value: 1673, name: "无锡" },
+        // { value: 1432, name: "镇江" },
+        // { value: 1254, name: "南京" },
+      ],
+      tableTitle: ["序号", "区域", "电梯数量"],
+    };
   },
   components: {
     areaHeader,
     TableTemp,
     rightCityEchart,
+  },
+  methods: {
+    handleCityRank(code = "") {
+      handleCityRank(code).then((res) => {
+        if (res.code == 0) {
+          this.menusPieInfo = [];
+          res.data.forEach((element, index) => {
+            this.menusPieInfo.push({
+              id: index + 1,
+              name: element.responseName,
+              value: element.liftNum,
+            });
+          });
+        }
+      });
+    },
   },
 };
 </script>

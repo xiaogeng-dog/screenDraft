@@ -14,6 +14,14 @@ export default {
   props: {
     echartsInfo: Object,
   },
+  watch: {
+    echartsInfo: {
+      handler() {
+        this.initEcharts();
+      },
+      deep: true,
+    },
+  },
   mounted() {
     this.initEcharts();
     window.addEventListener("resize", () => {
@@ -54,11 +62,11 @@ export default {
         "#ff5b00",
         "#ff3000",
       ];
-      for (var i = 0; i < trafficWay.length; i++) {
+      for (var i = 0; i < this.echartsInfo.length; i++) {
         data.push(
           {
-            value: trafficWay[i].value,
-            name: trafficWay[i].name,
+            value: this.echartsInfo[i].value,
+            name: this.echartsInfo[i].name,
             itemStyle: {
               normal: {
                 borderWidth: 5,
@@ -153,15 +161,15 @@ export default {
                   show: true,
                   position: "outside",
                   color: "#ddd",
-                  formatter: function (params) {
+                  formatter: (params) => {
                     var percent = 0;
                     var total = 0;
-                    for (var i = 0; i < trafficWay.length; i++) {
-                      total += trafficWay[i].value;
+                    for (var i = 0; i < this.echartsInfo.length; i++) {
+                      total += this.echartsInfo[i].value;
                     }
                     percent = ((params.value / total) * 100).toFixed(0);
                     if (params.name !== "") {
-                      return params.name + "：" + params.value;
+                      return params.name + "：" + params.value + "台";
                     } else {
                       return "";
                     }

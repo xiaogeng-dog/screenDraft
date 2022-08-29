@@ -17,7 +17,15 @@ export default {
     };
   },
   props: {
-    echartsInfo: Object,
+    echartsInfo: Array,
+  },
+  watch: {
+    echartsInfo: {
+      handler() {
+        this.initEcharts();
+      },
+      deep: true,
+    },
   },
   mounted() {
     this.initEcharts();
@@ -72,13 +80,7 @@ export default {
             show: false,
           },
           inverse: true,
-          data: [
-            "课程名称0001",
-            "课程名称0002",
-            "课程名称0003",
-            "课程名称0004",
-            "课程名称0005",
-          ],
+          data: this.echartsInfo.yAxisData.slice(0, 5),
         },
         series: [
           {
@@ -130,13 +132,13 @@ export default {
             data: [0, 0, 0, 0, 0],
           },
           {
-            name: "2011",
+            name: "电梯数量",
             barWidth: "30%",
             barGap: "60%",
             barCategoryGap: "100%",
             label: {
               show: true,
-              formatter: "{c}万",
+              formatter: "{c}台",
               color: "#BEBEBE",
               position: "right",
               fontWeight: 400,
@@ -173,7 +175,7 @@ export default {
               },
             },
             type: "bar",
-            data: [18203, 23489, 29034, 104970, 131744].reverse(),
+            data: this.echartsInfo.xAxisData.slice(0, 5),
           },
         ],
       };
